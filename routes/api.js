@@ -24,6 +24,29 @@ router.route('/words')
             });
     });
 
+/*router.route('/dummyCreate')
+    .get(function(req, res) {
+        var wordData = {
+            original:"日本",
+            syllables: "にほん",
+            translates: [
+                "Japon"
+            ],
+            types: [
+                "Sustantivo"
+            ],
+            notes: "Aqui nacio el japones"
+        };
+
+        Word.create(wordData, function(err, word) {
+            if (err) {
+                res.send(err);
+            }else {
+                res.json(word);
+            }
+        });
+    });*/
+
 router.route('/words/:word_id')
     .get(function(req, res) {
         Word.findById(req.params.word_id)

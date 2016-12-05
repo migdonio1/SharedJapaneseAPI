@@ -33,8 +33,9 @@ db.once('open', function() {
 
     app.use('/api/v1/', apiRouter);
 
-    app.listen(port);
-    console.log("SharedJapanese Web server started on port " + port + "...");
+    app.listen(port, function() {
+        console.log("SharedJapanese Web server started on port " + port + "...");
+    });
 });
 
 function initModels() {
