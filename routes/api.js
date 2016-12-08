@@ -13,6 +13,15 @@ router.use(function(req, res, next) {
 });
 
 router.route('/words')
+    .post(function(req, res){
+        Word.create(req.body, function(err, word) {
+            if(err) {
+                res.send(err);
+            }else {
+                res.json(word);
+            }
+        });
+    })
     .get(function(req, res) {
         Word.find({})
             .exec(function(err, words) {
@@ -57,6 +66,17 @@ router.route('/words/:word_id')
                     res.json(word);
                 }
             });
+    })
+    .delete(function(req, res) {
+        Word.remove({
+          _id: req.params.word_id
+        }, function(err, word){
+            if(err){
+                res.send(err);
+            } else {
+                res.json(word);
+            }
+        })
     });
 
 module.exports = router;
