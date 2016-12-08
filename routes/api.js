@@ -7,6 +7,7 @@ var router = express.Router();
 var mongoose = require('mongoose');
 
 var Word = mongoose.model('Word');
+var Site = mongoose.model('Site');
 
 router.use(function(req, res, next) {
     next();
@@ -33,29 +34,6 @@ router.route('/words')
             });
     });
 
-/*router.route('/dummyCreate')
-    .get(function(req, res) {
-        var wordData = {
-            original:"日本",
-            syllables: "にほん",
-            translates: [
-                "Japon"
-            ],
-            types: [
-                "Sustantivo"
-            ],
-            notes: "Aqui nacio el japones"
-        };
-
-        Word.create(wordData, function(err, word) {
-            if (err) {
-                res.send(err);
-            }else {
-                res.json(word);
-            }
-        });
-    });*/
-
 router.route('/words/:word_id')
     .get(function(req, res) {
         Word.findById(req.params.word_id)
@@ -75,6 +53,50 @@ router.route('/words/:word_id')
                 res.send(err);
             } else {
                 res.json(word);
+            }
+        })
+    });
+
+router.route('/sites')
+    .post(function(req, res) {
+        Site.create(req.body, function(err, site){
+            if(err) {
+                res.send(err);
+            } else {
+                res.json(site);
+            }
+        });
+    })
+    .get(function(req, res) {
+        Site.find({})
+            .exec(function(err, sites) {
+                if(err) {
+                    res.send(err);
+                } else {
+                    res.json(sites);
+                }
+            })
+    });
+
+router.route('/sites/:site_id')
+    .get(function(req, res) {
+        Site.findById(req.params.site_id)
+            .exec(function(err, site) {
+                if(err) {
+                    res.send(err);
+                } else {
+                    res.json(site);
+                }
+            })
+    })
+    .delete(function(req, res) {
+        Site.remove({
+            _id: req.params.site_id
+        }, function(err, site){
+            if(err) {
+                res.send(err);
+            } else {
+                res.json(site);
             }
         })
     });
