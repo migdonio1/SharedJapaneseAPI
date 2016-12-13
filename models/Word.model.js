@@ -4,6 +4,8 @@
 'use strict';
 
 var mongoose = require('mongoose');
+var random = require('mongoose-random');
+
 var Schema = mongoose.Schema;
 
 var wordSchema = new Schema ({
@@ -37,5 +39,7 @@ var wordSchema = new Schema ({
         trim: true
     }
 });
+
+wordSchema.plugin(random, { path: "r"});
 
 module.exports = mongoose.model('Word', wordSchema);

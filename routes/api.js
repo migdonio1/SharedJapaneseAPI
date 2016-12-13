@@ -13,6 +13,33 @@ router.use(function(req, res, next) {
     next();
 });
 
+//This route, convert previous documents without the plugin mongoose-random
+router.route('/randomizerWords')
+    .get(function (req, res) {
+        Word.syncRandom(function (err, words) {
+            if(err){
+                res.send(err);
+            } else {
+                res.json("OK");
+            }
+        })
+    });
+
+router.route('/quiz/:quiz_length')
+    .get(function(req, res) {
+
+        var quizLength = parseInt(req.params.quiz_length);
+
+        Word.findRandom().limit(quizLength)
+            .exec(function(err, words) {
+                if(err) {
+                    res.send(err);
+                } else {
+                    res.json(words);
+                }
+            });
+    });
+
 router.route('/words')
     .post(function(req, res){
         Word.create(req.body, function(err, word) {
