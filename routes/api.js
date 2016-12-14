@@ -8,6 +8,7 @@ var mongoose = require('mongoose');
 
 var Word = mongoose.model('Word');
 var Site = mongoose.model('Site');
+var User = mongoose.model('User');
 
 router.use(function(req, res, next) {
     next();
@@ -127,5 +128,35 @@ router.route('/sites/:site_id')
             }
         })
     });
+
+router.route('/login')
+    .post(function (req, res) {
+        User.find({
+            name:req.body.name,
+            password: req.body.password
+        }, function (err, user) {
+            if(err){
+                res.send(err);
+            }else{
+                if(user.length == 0){
+                    res.json('0');
+                }else{
+                    res.json(user);
+                }
+            }
+        })
+    });
+
+router.route('/users')
+    .post(function(req, res) {
+        User.create(req.body, function (err, user) {
+            if(err) {
+                res.send(err);
+            } else {
+                res.json(user);
+            }
+        });
+    });
+
 
 module.exports = router;

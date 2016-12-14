@@ -41,7 +41,9 @@ db.once('open', function() {
 function initModels() {
     require("./models/Word.model");
     require("./models/Site.model");
+    require("./models/User.model");
 
     Word = mongoose.model('Word');
     Site = mongoose.model('Site');
+    User = mongoose.model('User');
 }
